@@ -1,3 +1,3 @@
-# Dojo_10-Mar-2023_StringComponents
+# Dojo_31-Mar-2023_StringComponents
 
-Usage example: https://crisstanza.github.io/Dojo_10-Mar-2023_StringComponents/
+Usage example: https://crisstanza.github.io/Dojo_31-Mar-2023_StringComponents/
