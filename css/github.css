@@ -1,3 +1,11 @@
-footer.center { text-align: center; }
-.github-icon { opacity: 0.15; }
-.github-icon:hover { opacity: 0.3; }
+footer.center {
+	text-align: center;
+}
+
+.github-icon {
+	opacity: 0.15;
+}
+
+.github-icon:hover {
+	opacity: 0.3;
+}

@@ -6,5 +6,6 @@
 	"editor.formatOnSave": true,
 	"html.format.wrapLineLength": 999,
 	"html.format.indentInnerHtml": true,
-	"css.format.maxPreserveNewLines": 1
+	"css.format.maxPreserveNewLines": 1,
+	"html.format.maxPreserveNewLines": 1
 }
