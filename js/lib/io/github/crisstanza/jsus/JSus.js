@@ -189,7 +189,7 @@ class JSus {
 
 	static #show(obj) {
 		if (typeof obj === 'string') {
-			return obj.replace(/\n/g, '\\n');
+			return obj.replace(/\n/g, '<mark new-line>\\n</mark>');
 		}
 		return obj;
 	}

@@ -4,5 +4,7 @@
 	"editor.insertSpaces": false,
 	"editor.formatOnPaste": false,
 	"editor.formatOnSave": true,
-	"html.format.wrapLineLength": 999
+	"html.format.wrapLineLength": 999,
+	"html.format.indentInnerHtml": true,
+	"css.format.maxPreserveNewLines": 1
 }
