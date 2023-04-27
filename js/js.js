@@ -1,12 +1,15 @@
 (function () {
 
 	const init = () => {
-		new JSus({
+		const settings = {
 			include: [
 				ExampleTester,
-				NewLineStringBuilderTester
-			], output: document.getElementById('output')
-		}).start();
+				NewLineStringBuilderTester,
+				TextBoxBuilderTester,
+			],
+			output: document.getElementById('output')
+		};
+		new JSus(settings).start();
 	};
 
 	window.addEventListener('load', init, false);

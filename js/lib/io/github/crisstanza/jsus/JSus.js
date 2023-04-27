@@ -34,12 +34,12 @@ class JSus {
 		return methodName.match(/^test.*/);
 	}
 
-	#checkAndTestIt(sb, testObject, testMethod, level) {
+	#checkAndTestIt(sb, testObject, testMethod, testCase, level) {
 		if (testObject[testMethod]) {
-			return this.#testIt(sb, testObject, testMethod, null, level);
+			return this.#testIt(sb, testObject, testMethod, testCase, level);
 		}
 		return true;
-	} S
+	}
 
 	#checkAndSkipIt(sb, testObject, testMethod, level) {
 		if (testObject && testObject[testMethod]) {
@@ -107,7 +107,7 @@ class JSus {
 		let n = 0;
 		this.#settings.include.forEach((className) => {
 			sb.push(`<h1>${className.name}</h1>`);
-			this.#checkAndTestIt(sb, className, 'beforeClass', 1);
+			this.#checkAndTestIt(sb, className, 'beforeClass', null, 1);
 			sb.push('');
 			const propertyNames = Object.getOwnPropertyNames(className.prototype);
 			propertyNames.forEach((propertyName) => {
@@ -121,14 +121,14 @@ class JSus {
 								const testObject = this.#newInstance(sb, className, 2, n);
 								let successBefore;
 								if (testObject) {
-									successBefore = this.#checkAndTestIt(sb, testObject, 'before', 2);
+									successBefore = this.#checkAndTestIt(sb, testObject, 'before', testCase, 2);
 								} else {
 									successBefore = false;
 								}
 								if (successBefore) {
 									const success = this.#testIt(sb, testObject, propertyName, testCase, 2);
 									success ? status.success++ : status.fail++;
-									let successAfter = this.#checkAndTestIt(sb, testObject, 'after', 2);
+									let successAfter = this.#checkAndTestIt(sb, testObject, 'after', testCase, 2);
 									successAfter ? '' : status.fail++;
 								} else {
 									this.#skipIt(sb, testObject, propertyName, 2);
@@ -142,14 +142,14 @@ class JSus {
 							const testObject = this.#newInstance(sb, className, 2, n);
 							let successBefore;
 							if (testObject) {
-								successBefore = this.#checkAndTestIt(sb, testObject, 'before', 2);
+								successBefore = this.#checkAndTestIt(sb, testObject, 'before', null, 2);
 							} else {
 								successBefore = false;
 							}
 							if (successBefore) {
 								const success = this.#testIt(sb, testObject, propertyName, null, 2);
 								success ? status.success++ : status.fail++;
-								let successAfter = this.#checkAndTestIt(sb, testObject, 'after', 2);
+								let successAfter = this.#checkAndTestIt(sb, testObject, 'after', null, 2);
 								successAfter ? '' : status.fail++;
 							} else {
 								this.#skipIt(sb, testObject, propertyName, 2);
@@ -161,7 +161,7 @@ class JSus {
 					}
 				}
 			});
-			this.#checkAndTestIt(sb, className, 'afterClass', 1);
+			this.#checkAndTestIt(sb, className, 'afterClass', null, 1);
 			sb.push('');
 			sb.push('');
 		});
@@ -188,8 +188,20 @@ class JSus {
 	}
 
 	static #show(obj) {
+		if (obj === null) {
+			return '<mark control>null</mark>';
+		}
+		if (obj === undefined) {
+			return '<mark control>undefined</mark>';
+		}
 		if (typeof obj === 'string') {
-			return obj.replace(/\n/g, '<mark new-line>\\n</mark>');
+			if (obj.length == 0) {
+				return '<mark control>&lt;empty string&gt;</mark>';
+			}
+			return obj
+				.replace(/\n/g, '<mark control>\\n</mark>')
+				.replace(/\r/g, '<mark control>\\r</mark>')
+				.replace(/\t/g, '<mark control>\\t</mark>');
 		}
 		return obj;
 	}
@@ -201,43 +213,43 @@ class JSus {
 	}
 
 	static assertTrue = function (obj) {
-		JSus.#assert(obj === true, '[' + obj + '] should be [true]');
+		JSus.#assert(obj === true, '[' + JSus.#show(obj) + '] should be [true]');
 	};
 
 	static assertFalse = function (obj) {
-		JSus.#assert(obj === false, '[' + obj + '] should be [false]');
+		JSus.#assert(obj === false, '[' + JSus.#show(obj) + '] should be [false]');
 	};
 
 	static assertNull = function (obj) {
-		JSus.#assert(obj === null, '[' + obj + '] should be [null]');
+		JSus.#assert(obj === null, '[' + JSus.#show(obj) + '] should be [null]');
 	};
 
 	static assertNotNull = function (obj) {
-		JSus.#assert(obj !== null, '[' + obj + '] should not be [null]');
+		JSus.#assert(obj !== null, '[' + JSus.#show(obj) + '] should not be [null]');
 	};
 
 	static assertUndefined = function (obj) {
-		JSus.#assert(obj === undefined, '[' + obj + '] should be [undefined]');
+		JSus.#assert(obj === undefined, '[' + JSus.#show(obj) + '] should be [undefined]');
 	};
 
 	static assertEquals = function (obj1, obj2) {
-		JSus.#assert(obj1 === obj2, '[' + obj2 + '] should be equals to [' + JSus.#show(obj1) + ']');
+		JSus.#assert(obj1 === obj2, '[' + JSus.#show(obj2) + '] should be equals to [' + JSus.#show(obj1) + ']');
 	};
 
 	static assertNotEquals = function (obj1, obj2) {
-		JSus.#assert(obj1 !== obj2, '[' + obj2 + '] should not be equals to [' + JSus.#show(obj1) + ']');
+		JSus.#assert(obj1 !== obj2, '[' + JSus.#show(obj2) + '] should not be equals to [' + JSus.#show(obj1) + ']');
 	};
 
 	static assertBetween = function (limInf, obj, limSup) {
-		JSus.#assert(obj >= limInf && obj <= limSup, '[' + obj + '] should be between [' + limInf + '] and [' + limSup + '] inclusive');
+		JSus.#assert(obj >= limInf && obj <= limSup, '[' + JSus.#show(obj) + '] should be between [' + limInf + '] and [' + limSup + '] inclusive');
 	};
 
 	static assertEndsWith = function (obj2, obj1) {
-		JSus.#assert(new RegExp(obj1 + '$').test(obj2), '[' + obj2 + '] should ends with [' + obj1 + ']');
+		JSus.#assert(new RegExp(obj1 + '$').test(obj2), '[' + JSus.#show(obj2) + '] should ends with [' + obj1 + ']');
 	};
 
 	static assertStartsWith = function (obj2, obj1) {
-		JSus.#assert(new RegExp('^' + obj1).test(obj2), '[' + obj2 + '] should starts with [' + obj1 + ']');
+		JSus.#assert(new RegExp('^' + obj1).test(obj2), '[' + JSus.#show(obj2) + '] should starts with [' + obj1 + ']');
 	};
 
 }

@@ -18,7 +18,7 @@ mark[success] {
 	background-color: rgba(0, 255, 0, 0.2);
 }
 
-mark[new-line] {
+mark[control] {
 	background-color: rgba(99, 99, 99, 0.15);
 	color: #7b357b;
 	font-style: italic;
