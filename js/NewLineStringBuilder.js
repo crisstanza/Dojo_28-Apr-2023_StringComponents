@@ -12,4 +12,6 @@ class NewLineStringBuilder {
 	toString() {
 		return this.#lines;
 	}
+
+	// TODO: create and implement method clean()
 }

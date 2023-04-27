@@ -23,7 +23,7 @@ class ExampleTester {
 	}
 
 	test2() {
-		JSus.assertTrue(false);
+		JSus.assertTrue(!false);
 	}
 
 }

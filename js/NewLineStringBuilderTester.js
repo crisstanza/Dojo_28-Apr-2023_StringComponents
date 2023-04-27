@@ -14,6 +14,9 @@ class NewLineStringBuilderTester {
 			],
 			testClean: [
 				{ input: 'x', expected: '' },
+			],
+			testLotsOfLines: [
+				{ input: ['a', 1, true, 'Z'], expected: 'a\n1\ntrue\nZ' }
 			]
 		};
 	}
@@ -39,6 +42,12 @@ class NewLineStringBuilderTester {
 	testClean(input, expected) {
 		this.#builder.append(input);
 		this.#builder.clean();
+		const current = this.#builder.toString();
+		JSus.assertEquals(expected, current);
+	}
+
+	testLotsOfLines(input, expected) {
+		input.forEach(line => this.#builder.append(line));
 		const current = this.#builder.toString();
 		JSus.assertEquals(expected, current);
 	}
