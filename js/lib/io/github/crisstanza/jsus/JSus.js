@@ -113,7 +113,7 @@ class JSus {
 			propertyNames.forEach((propertyName) => {
 				if (!className[propertyName]) {
 					if (this.#isTestableMethod(propertyName)) {
-						const testCases = className.data();
+						const testCases = typeof className.data === 'function' ? className.data() : null;
 						const testCasesForMethod = testCases ? testCases[propertyName] : null;
 						if (testCasesForMethod) {
 							testCasesForMethod.forEach((testCase) => {
@@ -188,11 +188,8 @@ class JSus {
 	}
 
 	static #show(obj) {
-		if (obj === null) {
-			return '<mark control>null</mark>';
-		}
-		if (obj === undefined) {
-			return '<mark control>undefined</mark>';
+		if (obj === null || obj === undefined || obj === true || obj === false) {
+			return '<mark control>' + obj + '</mark>';
 		}
 		if (typeof obj === 'string') {
 			if (obj.length == 0) {
@@ -213,31 +210,31 @@ class JSus {
 	}
 
 	static assertTrue = function (obj) {
-		JSus.#assert(obj === true, '[' + JSus.#show(obj) + '] should be [true]');
+		JSus.#assert(obj === true, '[' + JSus.#show(obj) + '] should be [' + JSus.#show(true) + ']');
 	};
 
 	static assertFalse = function (obj) {
-		JSus.#assert(obj === false, '[' + JSus.#show(obj) + '] should be [false]');
+		JSus.#assert(obj === false, '[' + JSus.#show(obj) + '] should be [' + JSus.#show(false) + ']');
 	};
 
 	static assertNull = function (obj) {
-		JSus.#assert(obj === null, '[' + JSus.#show(obj) + '] should be [null]');
+		JSus.#assert(obj === null, '[' + JSus.#show(obj) + '] should be [' + JSus.#show(null) + ']');
 	};
 
 	static assertNotNull = function (obj) {
-		JSus.#assert(obj !== null, '[' + JSus.#show(obj) + '] should not be [null]');
+		JSus.#assert(obj !== null, '[' + JSus.#show(obj) + '] should not be [' + JSus.#show(null) + ']');
 	};
 
 	static assertUndefined = function (obj) {
-		JSus.#assert(obj === undefined, '[' + JSus.#show(obj) + '] should be [undefined]');
+		JSus.#assert(obj === undefined, '[' + JSus.#show(obj) + '] should be [' + JSus.#show(undefined) + ']');
 	};
 
 	static assertEquals = function (obj1, obj2) {
-		JSus.#assert(obj1 === obj2, '[' + JSus.#show(obj2) + '] should be equals to [' + JSus.#show(obj1) + ']');
+		JSus.#assert(obj1 === obj2, '[' + JSus.#show(obj2) + '] should be [' + JSus.#show(obj1) + ']');
 	};
 
 	static assertNotEquals = function (obj1, obj2) {
-		JSus.#assert(obj1 !== obj2, '[' + JSus.#show(obj2) + '] should not be equals to [' + JSus.#show(obj1) + ']');
+		JSus.#assert(obj1 !== obj2, '[' + JSus.#show(obj2) + '] should not be [' + JSus.#show(obj1) + ']');
 	};
 
 	static assertBetween = function (limInf, obj, limSup) {
@@ -245,11 +242,11 @@ class JSus {
 	};
 
 	static assertEndsWith = function (obj2, obj1) {
-		JSus.#assert(new RegExp(obj1 + '$').test(obj2), '[' + JSus.#show(obj2) + '] should ends with [' + obj1 + ']');
+		JSus.#assert(new RegExp(obj1 + '$').test(obj2), '[' + JSus.#show(obj2) + '] should ends with [' + JSus.#show(obj1) + ']');
 	};
 
 	static assertStartsWith = function (obj2, obj1) {
-		JSus.#assert(new RegExp('^' + obj1).test(obj2), '[' + JSus.#show(obj2) + '] should starts with [' + obj1 + ']');
+		JSus.#assert(new RegExp('^' + obj1).test(obj2), '[' + JSus.#show(obj2) + '] should starts with [' + JSus.#show(obj1) + ']');
 	};
 
 }

@@ -4,6 +4,7 @@
 		const settings = {
 			include: [
 				ExampleTester,
+				CalculatorTester,
 				NewLineStringBuilderTester,
 				TextBoxBuilderTester,
 			],
