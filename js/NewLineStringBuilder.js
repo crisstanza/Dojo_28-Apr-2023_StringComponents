@@ -14,4 +14,7 @@ class NewLineStringBuilder {
 	}
 
 	// TODO: create and implement method clean()
+	clean() {
+		this.#lines = [];
+	}
 }

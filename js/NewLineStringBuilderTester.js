@@ -16,7 +16,9 @@ class NewLineStringBuilderTester {
 				{ input: 'x', expected: '' },
 			],
 			testLotsOfLines: [
-				{ input: ['a', 1, true, 'Z'], expected: 'a\n1\ntrue\nZ' }
+				{ input: ['a', 1, true, 'Z'], expected: 'a\n1\ntrue\nZ' },
+				{ input: ['a', '', '', 'b'], expected: 'a\n\n\nb' },
+				{ input: ['a', '', 'b'], expected: 'a\n\nb' }
 			]
 		};
 	}
