@@ -2,15 +2,15 @@ class NewLineStringBuilder {
 	#lines;
 
 	constructor() {
-		this.#lines = '';
+		this.#lines = [];
 	}
 
 	append(value) {
-		this.#lines += value;
+		this.#lines.push(value);
 	}
 
 	toString() {
-		return this.#lines;
+		return this.#lines.join('\n');
 	}
 
 	// TODO: create and implement method clean()
