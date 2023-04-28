@@ -6,7 +6,7 @@
 				// ExampleTester,
 				// CalculatorTester,
 				NewLineStringBuilderTester,
-				// TextBoxBuilderTester,
+				TextBoxBuilderTester,
 			],
 			output: document.getElementById('output')
 		};
