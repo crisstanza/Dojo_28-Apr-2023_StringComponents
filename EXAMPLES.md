@@ -1,11 +1,11 @@
 # input:
 
-    a
+    lorem
     b
 
 # output:
 
-    ===
-    =a=
-    =b=
-    ===
+    =======
+    =lorem=
+    =b    =
+    =======
