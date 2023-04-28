@@ -20,13 +20,17 @@ class TextBoxBuilder {
 				largestLine = line;
 			}
 		});
-		let string = this.#builder.lines.map(line => {
+		let mappedLines = this.#builder.lines.map(line => {
 			let emptyChar = largestLine.length - line.length;
 			for (let index = 0; index < emptyChar; index++) {
 				line += ' ';
 			}
-			return '='+line+'=';
+			return '=' + line + '=';
 		});
+		let lid = '='.repeat(largestLine.length + 2);
+		mappedLines.unshift(lid);
+		mappedLines.push(lid);
+		return mappedLines.join('\n');
 	}
 
 }

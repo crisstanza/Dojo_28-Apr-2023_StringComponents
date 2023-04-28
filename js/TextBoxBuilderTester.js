@@ -7,6 +7,10 @@ class TextBoxBuilderTester {
 			testOne: [
 				{ input: 'a', expected: '===\n=a=\n===' }
 			],
+			testLotsOfLines: [
+				{ input: ['a', 'b'], expected: '===\n=a=\n=b=\n===' },
+				{ input: ['a', 'banana'], expected: '===\n=a=\n=banana=\n===' },
+			]
 			// testTwo: [
 			// 	{
 			// 		input: {
@@ -44,5 +48,11 @@ class TextBoxBuilderTester {
 	// 	const current = this.#builder.toString();
 	// 	JSus.assertEquals(expected, current);
 	// }
+
+	testLotsOfLines(input, expected) {
+		input.forEach(line => this.#builder.append(line));
+		const current = this.#builder.toString();
+		JSus.assertEquals(expected, current);
+	}
 
 }
