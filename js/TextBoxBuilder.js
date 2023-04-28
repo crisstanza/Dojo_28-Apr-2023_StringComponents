@@ -5,7 +5,7 @@ class TextBoxBuilder {
 	// 	console.log('TextBoxBuilder.constructor(' + JSON.stringify(settings) + ')');
 	// }
 
-	constructor(settings) {
+	constructor(settings = { top: '=', right: '=', bottom: '=', left: '=' }) {
 		this.#builder = new NewLineStringBuilder();
 		this.#settings = settings;
 	}
@@ -26,11 +26,12 @@ class TextBoxBuilder {
 			for (let index = 0; index < emptyChar; index++) {
 				line += ' ';
 			}
-			return '=' + line + '=';
+			return this.#settings.left + line + this.#settings.right;
 		});
-		let lid = '='.repeat(largestLine.length + 2);
+		let lid = this.#settings.top.repeat(largestLine.length + 2);
+		let bottomBox = this.#settings.bottom.repeat(largestLine.length + 2);
 		mappedLines.unshift(lid);
-		mappedLines.push(lid);
+		mappedLines.push(bottomBox);
 		return mappedLines.join('\n');
 	}
 

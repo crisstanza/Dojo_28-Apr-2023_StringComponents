@@ -18,20 +18,20 @@ class TextBoxBuilderTester {
 				{
 					input: {
 						settings: { top: '-', right: '|', bottom: '-', left: '|' },
-						line: 'B'
+						lines: [{text: 'B'}]
 					},
 					expected: '---\n|B|\n---'
 				},
-				// {
-				// 	input: {
-				// 		settings: { top: '-', right: '|', bottom: '-', left: '|' },
-				// 		lines: [
-				// 			{ text: 'aaBBcc', align: 'left' },
-				// 			{ text: 'bb', align: 'center' }
-				// 		]
-				// 	},
-				// 	expected: '--------\n|aaBBcc|\n|  bb  |\n--------'
-				// }
+				{
+					input: {
+						settings: { top: '-', right: '|', bottom: '-', left: '|' },
+						lines: [
+							{ text: 'aaBBcc', align: 'left' },
+							{ text: 'bb', align: 'center' }
+						]
+					},
+					expected: '--------\n|aaBBcc|\n|  bb  |\n--------'
+				}
 			]
 		};
 	}
@@ -47,7 +47,7 @@ class TextBoxBuilderTester {
 	}
 
 	testTwo(input, expected) {
-		this.#builder.append(input);
+		input.lines.forEach(line => this.#builder.append(line.text));
 		const current = this.#builder.toString();
 		JSus.assertEquals(expected, current);
 	}
