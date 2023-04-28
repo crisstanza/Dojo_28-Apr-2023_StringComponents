@@ -5,20 +5,20 @@ class TextBoxBuilderTester {
 	static data() {
 		return {
 			testOne: [
-				{ input: 'a', expected: '===\n=a=\n===' }
+				{ input: 'a', expected: '===\n=a=\n===' },
 			],
 			testLotsOfLines: [
 				{ input: ['a', 'b'], expected: '===\n=a=\n=b=\n===' },
-				{ input: ['a', 'ba'], expected: '====\n=a =\n=ba=\n====' },
+				{ input: ['a', 'bb'], expected: '====\n=a =\n=bb=\n====' },
 			],
 			testLotsOfLinesMoreThanOnce: [
-				{ input: ['a', 'ba'], expected: '====\n=a =\n=ba=\n====' },
+				{ input: ['a', 'bb'], expected: '====\n=a =\n=bb=\n====' },
 			],
-			testTwo: [
+			testSettings: [
 				{
 					input: {
 						settings: { top: '-', right: '|', bottom: '-', left: '|' },
-						lines: [{text: 'B'}]
+						lines: [{ text: 'B' }]
 					},
 					expected: '---\n|B|\n---'
 				},
@@ -31,8 +31,15 @@ class TextBoxBuilderTester {
 						]
 					},
 					expected: '--------\n|aaBBcc|\n|  bb  |\n--------'
-				}
-			]
+				},
+				{
+					input: {
+						settings: { top: '=', right: '=', bottom: '=', left: '=', padding: true },
+						lines: [{ text: 'a' }]
+					},
+					expected: '=====\n= a =\n====='
+				},
+			],
 		};
 	}
 
@@ -46,8 +53,8 @@ class TextBoxBuilderTester {
 		JSus.assertEquals(expected, current);
 	}
 
-	testTwo(input, expected) {
-		input.lines.forEach(line => this.#builder.append(line.text));
+	testSettings(input, expected) {
+		input.lines.forEach(line => this.#builder.append(line.text, line.align));
 		const current = this.#builder.toString();
 		JSus.assertEquals(expected, current);
 	}

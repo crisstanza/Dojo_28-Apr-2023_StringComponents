@@ -1,38 +1,57 @@
 class TextBoxBuilder {
-	#builder;
+	#input;
 	#settings;
-	// constructor(settings) {
-	// 	console.log('TextBoxBuilder.constructor(' + JSON.stringify(settings) + ')');
-	// }
 
-	constructor(settings = { top: '=', right: '=', bottom: '=', left: '=' }) {
-		this.#builder = new NewLineStringBuilder();
+	constructor(settings = { top: '=', right: '=', bottom: '=', left: '=', padding: false }) {
+		this.#input = [];
 		this.#settings = settings;
 	}
 
-	append(value) {
-		this.#builder.append(value);
+	append(value, align = 'left') {
+		this.#input.push({
+			text: value,
+			alignment: align
+		});
 	}
 
 	toString() {
-		let largestLine = '';
-		this.#builder.lines.forEach(line => {
-			if (line.length > largestLine.length) {
-				largestLine = line;
-			}
+		let lengths = this.#input.map(input => input.text.length);
+		let largestLength = Math.max.apply(Math, lengths);
+
+		let edgePadding = this.#settings.padding ? 4 : 2;
+		let textPadding = this.#settings.padding ? ' ' : '';
+
+		let top = this.#settings.top.repeat(largestLength + edgePadding);
+		let bottom = this.#settings.bottom.repeat(largestLength + edgePadding);
+
+		let builder = new NewLineStringBuilder();
+		builder.append(top);
+		this.#input.forEach(input => {
+			let text = this.#settings.left
+				+ textPadding
+				+ this.#align(input, largestLength)
+				+ textPadding
+				+ this.#settings.right;
+			builder.append(text);
 		});
-		let mappedLines = this.#builder.lines.map(line => {
-			let emptyChar = largestLine.length - line.length;
-			for (let index = 0; index < emptyChar; index++) {
-				line += ' ';
-			}
-			return this.#settings.left + line + this.#settings.right;
-		});
-		let lid = this.#settings.top.repeat(largestLine.length + 2);
-		let bottomBox = this.#settings.bottom.repeat(largestLine.length + 2);
-		mappedLines.unshift(lid);
-		mappedLines.push(bottomBox);
-		return mappedLines.join('\n');
+		builder.append(bottom);
+
+		return builder.toString();
 	}
+
+	#align(input, largestLength) {
+		let alignmentLength = largestLength - input.text.length;
+		let alignmentText = ' '.repeat(alignmentLength);
+		switch (input.alignment) {
+			default: //'left'
+				return input.text + alignmentText;
+			case 'center':
+				let left = alignmentText.substring(0, alignmentLength / 2);
+				let right = alignmentText.substring(alignmentLength / 2);
+				return left + input.text + right;
+			case 'right':
+				return alignmentText + input.text;
+		};
+	};
 
 }
