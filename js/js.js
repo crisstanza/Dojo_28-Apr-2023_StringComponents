@@ -3,9 +3,9 @@
 	const init = () => {
 		const settings = {
 			include: [
-				ExampleTester,
+				// ExampleTester,
 				// CalculatorTester,
-				// NewLineStringBuilderTester,
+				NewLineStringBuilderTester,
 				// TextBoxBuilderTester,
 			],
 			output: document.getElementById('output')
