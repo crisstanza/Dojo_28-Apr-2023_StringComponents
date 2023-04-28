@@ -9,27 +9,30 @@ class TextBoxBuilderTester {
 			],
 			testLotsOfLines: [
 				{ input: ['a', 'b'], expected: '===\n=a=\n=b=\n===' },
-				{ input: ['a', 'banana'], expected: '===\n=a=\n=banana=\n===' },
+				{ input: ['a', 'ba'], expected: '====\n=a =\n=ba=\n====' },
+			],
+			testLotsOfLinesMoreThanOnce: [
+				{ input: ['a', 'ba'], expected: '====\n=a =\n=ba=\n====' },
+			],
+			testTwo: [
+				{
+					input: {
+						settings: { top: '-', right: '|', bottom: '-', left: '|' },
+						line: 'B'
+					},
+					expected: '---\n|B|\n---'
+				},
+				// {
+				// 	input: {
+				// 		settings: { top: '-', right: '|', bottom: '-', left: '|' },
+				// 		lines: [
+				// 			{ text: 'aaBBcc', align: 'left' },
+				// 			{ text: 'bb', align: 'center' }
+				// 		]
+				// 	},
+				// 	expected: '--------\n|aaBBcc|\n|  bb  |\n--------'
+				// }
 			]
-			// testTwo: [
-			// 	{
-			// 		input: {
-			// 			settings: { top: '-', right: '|', bottom: '-', left: '|' },
-			// 			line: 'B'
-			// 		},
-			// 		expected: '---\n|B|\n---'
-			// 	},
-			// 	{
-			// 		input: {
-			// 			settings: { top: '-', right: '|', bottom: '-', left: '|' },
-			// 			lines: [
-			// 				{ text: 'aaBBcc', align: 'left' },
-			// 				{ text: 'bb', align: 'center' }
-			// 			]
-			// 		},
-			// 		expected: '--------\n|aaBBcc|\n|  bb  |\n--------'
-			// 	}
-			// ]
 		};
 	}
 
@@ -43,15 +46,23 @@ class TextBoxBuilderTester {
 		JSus.assertEquals(expected, current);
 	}
 
-	// testTwo(input, expected) {
-	// 	this.#builder.append(input);
-	// 	const current = this.#builder.toString();
-	// 	JSus.assertEquals(expected, current);
-	// }
+	testTwo(input, expected) {
+		this.#builder.append(input);
+		const current = this.#builder.toString();
+		JSus.assertEquals(expected, current);
+	}
 
 	testLotsOfLines(input, expected) {
 		input.forEach(line => this.#builder.append(line));
 		const current = this.#builder.toString();
+		JSus.assertEquals(expected, current);
+	}
+
+	testLotsOfLinesMoreThanOnce(input, expected) {
+		input.forEach(line => this.#builder.append(line));
+		let current = this.#builder.toString();
+		JSus.assertEquals(expected, current);
+		current = this.#builder.toString();
 		JSus.assertEquals(expected, current);
 	}
 

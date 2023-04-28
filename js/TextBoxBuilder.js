@@ -1,12 +1,13 @@
 class TextBoxBuilder {
 	#builder;
-
+	#settings;
 	// constructor(settings) {
 	// 	console.log('TextBoxBuilder.constructor(' + JSON.stringify(settings) + ')');
 	// }
 
-	constructor() {
+	constructor(settings) {
 		this.#builder = new NewLineStringBuilder();
+		this.#settings = settings;
 	}
 
 	append(value) {
