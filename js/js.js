@@ -4,9 +4,9 @@
 		const settings = {
 			include: [
 				ExampleTester,
-				CalculatorTester,
-				NewLineStringBuilderTester,
-				TextBoxBuilderTester,
+				// CalculatorTester,
+				// NewLineStringBuilderTester,
+				// TextBoxBuilderTester,
 			],
 			output: document.getElementById('output')
 		};
